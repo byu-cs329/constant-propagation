@@ -1,10 +1,10 @@
 # Objective
 
-This lab brings together constant folding and reaching definitions on a control flow graph to implement constant propagation.
+This assignment brings together constant folding and reaching definitions on a control flow graph to implement constant propagation. For this assignment, you will be modifying and adding code to the `edu.byu.cs329.constantpropagation` package.
 
-The first objective of this lab is to implement a `ConstantPropagation` class that for each `MethodDeclaration` does constant propagation to simplify the code. The implementation should be constructed with an `ASTVisitor` to find and replace a variable use with a constant based on the reaching definitions analysis. The visitor only looks at a statement in isolation, and the control flow graph is used to be sure each statement is considered. 
+The first objective of this assignment is to implement a `ConstantPropagation` class that for each `MethodDeclaration` does constant propagation to simplify the code. The implementation should be constructed with an `ASTVisitor` to find and replace a variable use with a constant based on the reaching definitions analysis. The visitor only looks at a statement in isolation, and the control flow graph is used to be sure each statement is considered. 
 
-The second objective of this lab is to create a test framework to test the implementation. That framework needs to accomplish the following:
+The second objective of this assignment is to create a test framework to test the implementation. That framework needs to accomplish the following:
 
   * Black-box functional test constant propagation
   * White-box decision coverage test constant propagation: the visitor and any code needed to implement this lab --- use mocks where appropriate to get the needed coverage.
@@ -20,31 +20,7 @@ Be sure to carefully read about [constant propagation](https://en.wikipedia.org/
 
 # Java Subset
 
-Use the same subset of Java as defined in the prior labs.
-
-# Environment Setup
-
-Rather than copy over files into a new repository from the previous labs, this lab adds the previous labs as dependencies. The current `pom.xml` contains the dependencies with default names. 
-
-```xml 
-<dependency>
-  <groupId>edu.byu.cs329</groupId>
-  <artifactId>lab1-cfg-rd</artifactId>
-  <version>1.0-SNAPSHOT</version>
-</dependency>
-
-<dependency>
-  <groupId>edu.byu.cs329</groupId>
-  <artifactId>lab0-constant-folding</artifactId>
-  <version>1.0-SNAPSHOT</version>
-</dependency>
-```
-
-The `mvn install` command builds and names a jar file for the project according to the `pom.xml` file and installs that jar in the local Maven cache. Run it for `lab0-contant-propagation` and `lab1-cfg-rd` so that these are available to use in this new lab. Notice that the `pom.xml` files in the prior labs may need to be modified to match the dependency names indicated in the `pom.xml` file for this lab, so be sure the `groupID`, `artifactID`, and `version` in the `pom.xml` files match what is built and cached by `mvn install` for each project. 
-
-If using Docker containers for development, then it may be necessary to put all the projects in a single directory, and then open the docker container in the directory with all the projects. In this way all the projects share the same Maven cache in the container so that Maven is able to install the jar files for the dependencies. Another solution is to have docker mount the local cache in the container. Either solution works fine.
-
-If a solution to a prior project is needed, then please contact the instructor directly.
+Use the same subset of Java as defined in the [README.md in this repository's root directory](README.md).
 
 # Constant Propagation
 
@@ -155,17 +131,19 @@ For each method, repeat until no changes
   3. Perform reaching definitions
   4. Replace any use of a variable that has a single reaching definition that is a literal with the literal (or if there are multiple definitions that reach the use but both are the same literal)
 
-# Lab Requirements
+# Project Requirements
 
   1. A minimal set of black-box tests for the functionality of ```ConstantPropagtion```
   2. An implementation of `ConstantPropagation`
-  3. Any additional tests for white-box decision coverage (e.g., branch coverage) as reported by Jacoco for the ```ConstantPropagation``` class and any new classes created in this lab to implement the `ConstantPropagation` class. Assertion statements are exempt from the coverage report, so if a decision is not covered, and it is not due to an assertion, then that lack of coverage must be justified in some way. 
+  3. Any additional tests for white-box decision coverage (e.g., branch coverage) as reported by Jacoco for the ```ConstantPropagation``` class and any new classes created in this lab to implement the `ConstantPropagation` class. Assertion statements are exempt from the coverage report, so if a decision is not covered, and it is not due to an assertion, then that lack of coverage must be justified in some way. You are required to modify the POM file as described in the Jacoco section of this writeup to ensure this is enforced by `mvn verify`.
 
 It is strongly encouraged to use test driven development that writes a test, writes code to pass the test, and then repeats until the implementation is complete. 
 
-## What to turn in?
+# What to turn in?
 
-Create a pull request when the lab is done. Submit to Canvas the URL of the pull request.
+When you are done with this assignment, create a pull request of your feature branch containing the solution. Upon submission of your pull request, GitHub will give you a sanity check by running Maven commands that the TA would have run to grade your assignment. Note that passing the GitHub build *does not* mean that you will get full credit for the assignment.  
+
+Submit to Canvas the URL of the pull request.
 
 # Block Folding
 
@@ -206,9 +184,14 @@ int name(int i) {
 
 Jacoco is already configured in the `pom.xml` file for this project. The configuration makes the `mvn test` command automatically generate a `./target/jacoco.exec` binary file with white-box coverage data. A human readable version of the data is created with the `mvn jacoco:report` command. This command creates the `./target/site/jacoco/index.html` report that is easily navigated to see decision (e.g., branch) coverage for `ConstantPropagation` and any new classes that are a part of this project. Coverage is based only on the defined and run tests. 
 
+To get full credit for this assignment, remove the following line of code in the POM file configuring the Jacoco plugin to allow Maven fail the `verify` command if 100% decision coverage was not met:
+```
+<skip>true</skip>
+```
+
 It is permissible to modify the `ConstantPropagation` class to make it easier to achieve branch coverage. It may be necessary to use mocks to cover some of the more difficult decisions. 
 
-Some further work must take place to read the report if working in a container as the container file-system may not be visible to the browser on the host operating system. It is possible to have Jacoco generate different reports such as a CSV report that can be inspected in the text editor. See the Jacoco documentation for details.
+Some further work must take place to read the report if working in a container as the container file-system may not be visible to the browser on the host operating system. It is possible to have Jacoco generate different reports such as a CSV report that can be inspected in the text editor. See the Jacoco documentation and the GitHub workflow file for details.
 
 # Rubric
 

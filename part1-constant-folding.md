@@ -1,12 +1,12 @@
 # Objective
 
-The objective of this lab is to implement [constant folding](https://en.wikipedia.org/wiki/Constant_folding) for a subset of Java and use black-box testing to test its functional correctness. The implementation will use the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) to represent and manipulate Java.  The [constant folding](https://en.wikipedia.org/wiki/Constant_folding) itself should be accomplished with a specialized [ASTVisitor](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html). The program will take two arguments as input:
+For this part of the project, you will implement [constant folding](https://en.wikipedia.org/wiki/Constant_folding) for a subset of Java and use black-box testing to test its functional correctness. Your implementation will modify and add code contained in the `edu.byu.cs329.constantfolding` package. The implementation will use the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) to represent and manipulate Java.  The [constant folding](https://en.wikipedia.org/wiki/Constant_folding) itself should be accomplished with a specialized [ASTVisitor](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html). The program will take two arguments as input:
 
   1. the Java file on which to do constant folding; and
   2. an output file to write the result.
 
-The program should only apply to a limited subset of Java defined below. It should fold any and all constants as much as possible. It should not implement **constant propagation** which is the topic of the next lab for the course.
- 
+The program should only apply to a limited subset of Java defined below. It should fold any and all constants as much as possible. It should not implement **constant propagation** which is the topic of the final part of this project.
+
 The part of the program that does the actual folding should be specified and tested via black-box testing. A significant part of the grade is dedicated to the test framework and the tests (more so than the actual implementation), so be sure to spend time accordingly. In the end, the test framework and supporting tests are more interesting than the actual constant folding in regards to the grade.
 
 # Reading
@@ -71,6 +71,40 @@ For this lab, you don't need to remove the braces -- it is more difficult that i
 { x = 10;
 }
 ```
+# Block Folding
+
+Consider the following code.
+
+```java
+int name(int i) {
+  i = 10;
+  if (true) {
+     i = 20;
+  } 
+}
+```
+
+Constant folding for the if-statement will reduce it to the following: 
+
+```java
+int name(int i) {
+  i = 10;
+  {
+    i = 20;
+  } 
+}
+```
+
+For the purpose of this project, a folding option to constant folding that reduces nested blocks is needed for constant propagation to work correctly. Since variable **shadowing is not allowed** in the Java subset for this class, folding nested blocks does not cause scoping issues. Block folding inspects every statement in a block, and if a statement in a block is itself a block, then all the statements in that nested block are lifted up to be part of the current block as in the following:
+
+```java
+int name(int i) {
+  i = 10;
+  i = 20; 
+}
+```
+
+[BlockFolding.java](BlockFolding.java) in this repository is an implementation of block folding that may be used freely to remove nested blocks. As a fair warning, it is provided *as is* with no guarantee of correctness; although, there are no known defects at this point in time.
 
 # Advandced Folding (Optional)
 
@@ -172,25 +206,11 @@ Approach the lab in small steps starting with the easiest type starting with `Pr
 
 Repeat for the other ways to fold. It is **important** that the **implementation is created after the specification and tests.** Specification. Then tests. And finally the implementation.
 
-# POM Notes
-
-The `mvn test` uses the Surefire plugin to generat console reports and additional reports in `./target/surefire-reports`. The console report extension is configured to use the `@DisplayName` for the tests and generally works well except in the case of tests in `@Nested`, tests in `@ParameterizedTest`, or `@DynamicTest`. For these, the console report extension is less than ideal as it does not use the `@DisplayName` all the time and groups `@ParameterisedTest` and `@DynamicTest` into a single line report.
-
-The `./target/surefire-reports/TEST-<fully qualified classname>.xml` file is the detailed report of all the tests in the class that uses the correct `@DisplayName`. The file is very useful for isolating failed parameterized or dynamic tests. The regular text files in the directory only show what Maven shows. That said, many IDEs present a tree view of the tests with additional information for `@Nested`, `@ParameterizedTest`, `@DynamicTest`, `@RepeatTest`, etc. This tree view can be generated with the JUnit `ConsoleLauncher`. 
-
-The POM in the project is setup to run the [JUnit Platform Console Standalone](https://mvnrepository.com/artifact/org.junit.platform/junit-platform-console-standalone) on the `mvn exec:java` goal in the build phase. The POM sets the arguments to scan for tests, `--scan-classpath`, with `./target/test-classes` being added to the class path. The equivalent command line (and the default defined in the POM):
-
-```
-mvn exec:java -Dexec.mainClass=org.junit.platform.console.ConsoleLauncher -Dexec.args="--class-path=./target/test-classes --scan-classpath"
-```
-
-The above is what is run with just the command `mvn exec:java`.
-
-The `ConsoleLauncher` is able to run specific tests and classes, so it is possible to change the `--scan-path` argument, either in the POM file or by typing in the above on the command line. [Section 4.3.1](https://junit.org/junit5/docs/current/user-guide/#running-tests-console-launcher) of the JUnit 5 users lists all the options.
-
 # What to turn in?
 
-Create a pull request when the lab is done. Submit to Canvas the URL of the repository.
+When you are done with this assignment, create a pull request of your feature branch containing the solution. Upon submission of your pull request, GitHub will give you a sanity check by running Maven commands that the TA would have run to grade your assignment. Note that passing the GitHub build *does not* mean that you will get full credit for the assignment.  
+
+Submit to Canvas the URL of the pull request.
 
 # Rubric
 
@@ -207,5 +227,3 @@ Breakdown of **(40 points)** for each required folding technique
 # Notes
 
   * What would a boundary value analysis look like? 
-  * Watch carefully what imports are added by the IDE in the testing code to be sure it is importing from the Jupiter API as behavior changes in the IDE if it grabs from the wrong JUnit API and annotations will not work as expected. 
-  * Be sure the logger imports use the `slf4j` interface.
