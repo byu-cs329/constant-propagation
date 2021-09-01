@@ -1,6 +1,6 @@
 package edu.byu.cs329.constantpropagation;
 
-import edu.byu.cs329.utils.ast.JavaSourceUtils;
+import edu.byu.cs329.utils.JavaSourceUtils;
 import java.io.File;
 import java.io.PrintWriter;
 import org.eclipse.jdt.core.dom.ASTNode;

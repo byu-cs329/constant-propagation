@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>edu.byu.cs329</groupId>
-	<artifactId>lab-constant-propagation</artifactId>
+	<artifactId>constant-propagation</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>lab-constant-propagation</name>
+	<name>constant-propagation</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,6 +25,7 @@
 		<exec.maven.version>3.0.0</exec.maven.version>
 		<junit.standalone.version>1.7.0-M1</junit.standalone.version>
 		<mockito.version>3.5.10</mockito.version>
+		<jacoco.version>0.8.6</jacoco.version>
 	</properties>
 
 	<dependencies>
@@ -33,7 +34,7 @@
 			<artifactId>lab-utils</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
@@ -71,7 +72,6 @@
 			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -155,6 +155,50 @@
 					</arguments>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<skip>true</skip> <!-- TODO: Remove this line for Part 3-->
+							<rules>
+								<rule>
+									<element>PACKAGE</element>
+									<includes>
+										<include>edu.byu.cs329.constantpropagation</include>
+									</includes>
+									<limits>
+										<limit>
+											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>100%</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -170,7 +214,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>${javadoc.version}</version>
 				<configuration>
-					<source>8</source>
+					<source>11</source>
 					<show>public</show>
 					<tags>
 						<tag>

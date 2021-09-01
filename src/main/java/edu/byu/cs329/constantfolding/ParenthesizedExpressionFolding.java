@@ -1,7 +1,7 @@
 package edu.byu.cs329.constantfolding;
 
 import edu.byu.cs329.utils.ExceptionUtils;
-import edu.byu.cs329.utils.ast.TreeModificationUtils;
+import edu.byu.cs329.utils.TreeModificationUtils;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;

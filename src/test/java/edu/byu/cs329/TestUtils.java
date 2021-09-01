@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import edu.byu.cs329.constantfolding.Folding;
-import edu.byu.cs329.utils.ast.JavaSourceUtils;
+import edu.byu.cs329.utils.JavaSourceUtils;
 import java.net.URI;
 
 import org.eclipse.jdt.core.dom.ASTMatcher;
