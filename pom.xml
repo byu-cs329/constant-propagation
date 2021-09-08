@@ -150,8 +150,9 @@
 					<mainClass>org.junit.platform.console.ConsoleLauncher</mainClass>
 					<arguments>
 						<argument>--disable-banner</argument>
-						<argument>--class-path=./target/test-classes</argument>
+						<argument>--class-path=${project.build.testOutputDirectory}</argument>
 						<argument>--scan-classpath</argument>
+						<argument>--include-package=edu.byu.cs329.constantfolding</argument>
 					</arguments>
 				</configuration>
 			</plugin>
