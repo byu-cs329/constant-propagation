@@ -28,9 +28,11 @@ public class ConstantFolding {
    */
   public static ASTNode fold(ASTNode compilationUnit) {
     boolean isChanged = true;
-    List<Folding> foldingList = new ArrayList<Folding>();
-    foldingList.add(new ParenthesizedExpressionFolding());
+    List<Folding> foldingList = List.of(
+        new BlockFolding(),
+        new ParenthesizedExpressionFolding()
     // TODO: add other ways to fold
+    );
   
     while (isChanged == true) {
       for (Folding folding : foldingList) {
