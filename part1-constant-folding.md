@@ -1,4 +1,6 @@
-# Objective
+# Part 1: Constant Folding
+
+## Objective
 
 For this part of the project, you will implement [constant folding](https://en.wikipedia.org/wiki/Constant_folding) for a subset of Java and use black-box testing to test its functional correctness. Your implementation will modify and add code contained in the `edu.byu.cs329.constantfolding` package. The implementation will use the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) to represent and manipulate Java.  The [constant folding](https://en.wikipedia.org/wiki/Constant_folding) itself should be accomplished with a specialized [ASTVisitor](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html). The program will take two arguments as input:
 
@@ -9,11 +11,11 @@ The program should only apply to a limited subset of Java defined below. It shou
 
 The part of the program that does the actual folding should be specified and tested via black-box testing. A significant part of the grade is dedicated to the test framework and the tests (more so than the actual implementation), so be sure to spend time accordingly. In the end, the test framework and supporting tests are more interesting than the actual constant folding in regards to the grade.
 
-# Reading
+## Reading
 
-The [DOM-Visitor lecture](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/DOM-Visitor/) is a must read before starting this lab. You will also need the [DOMViewer](https://github.com/byu-cs329/DOMViewer.git) installed and working to view the AST for any given input file. Alternatively, there is an [ASTView plugin](https://www.eclipse.org/jdt/ui/astview/) for Eclipse available on the Eclipse Market Place that works really well. There is something similar for IntelliJ too.
+The [DOM-Visitor lecture](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/DOM-Visitor/) is a must read before starting this assignment. You will also need the [DOMViewer](https://github.com/byu-cs329/DOMViewer.git) installed and working to view the AST for any given input file. Alternatively, there is an [ASTView plugin](https://www.eclipse.org/jdt/ui/astview/) for Eclipse available on the Eclipse Market Place that works really well. There is something similar for IntelliJ too.
 
-# Constant Folding
+## What is Constant Folding?
 
 [Constant folding](https://en.wikipedia.org/wiki/Constant_folding) is the process where constant expressions are reduced by the compiler before generating code. 
  
@@ -65,13 +67,9 @@ x = 10;
 
 In the above example, the constant folding removed **dead code** that was not reachable on any input.
 
-For this lab, you don't need to remove the braces -- it is more difficult that is necessary. So the above should look like:
+Normally, the braces would not be removed automatically. Since the implementation is more difficult that is necessary, we implemented it in the [BlockFolding](src/main/java/edu/byu/cs329/constantfolding/BlockFolding.java) class.
 
-```java
-{ x = 10;
-}
-```
-# Block Folding
+## Block Folding
 
 Consider the following code.
 
@@ -84,7 +82,7 @@ int name(int i) {
 }
 ```
 
-Constant folding for the if-statement will reduce it to the following: 
+Constant folding for the if-statement will reduce it to the following:
 
 ```java
 int name(int i) {
@@ -106,7 +104,7 @@ int name(int i) {
 
 [BlockFolding.java](BlockFolding.java) in this repository is an implementation of block folding that may be used freely to remove nested blocks. As a fair warning, it is provided *as is* with no guarantee of correctness; although, there are no known defects at this point in time.
 
-# Advandced Folding (Optional)
+## Advandced Folding (Optional)
 
 Be aware that [short circuit evaluation](https://en.wikipedia.org/wiki/Short-circuit_evaluation) comes into play for constant folding. For example ```a.f() && false``` cannot be reducted to ```false``` because it is not known if the call to ```a.f()``` side effects on the state of the class, so it's call must be preseved. That said, ```a.y() && false && b.y()``` can be reduced to ```a.y() && false``` since the call to ```b.y()``` will never take place.  As another example, consider ```a.y() || b.y() || true || c.y()```. Here the call to ```c.y()``` will never take place so the expression reduces to ```a.y() || b.y() || true```.
 
@@ -166,11 +164,11 @@ x = 10;
 
 If you implement short-circuiting of two parameters with appropriate tests, notify the instructor to receive extra credit.
 
-# Java Subset
+## Java Subset
 
 This course is only going to consider a very narrow [subset of Java](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/java-subset/java-subset.md) as considering all of Java is way beyond the scope and intent of this course (e.g., it would be a nightmare). The [subset of Java](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/java-subset/java-subset.md) effectively reduces to single-file programs with all the interesting language features (e.g., generics, lambdas, anonymous classes, etc.) removed. **As a general rule**, if something seems unusually hard or has an unusually large number of cases to deal with, then it probably is excluded from the [subset of Java](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/java-subset/java-subset.md) or should be excuded, so stop and ask before spending a lot of time on it.
 
-# Required Folding
+## Required Folding
 
 Constant folding is **only required** for the following types of `ASTNode` expressions and statements:
 
@@ -182,7 +180,7 @@ Constant folding is **only required** for the following types of `ASTNode` expre
  
 Assume that any `NumberLiteral` instance is of type `int` always. This set of expressions and statements are much more narrow than what is allowed in the Java subset. That is OK. Folding is only applied to the above program features.  Also, folding should be applied iteratively until no furter reduction is possible.
 
-# Lab Requirements
+## Assignment Requirements
 
 For each required application of constant folding:
 
@@ -193,26 +191,26 @@ For each required application of constant folding:
 
 After each required application of constant folding is implemented, then write some system tests for `ConstantFolding.fold` that check the iterative application of all the ways to folding to reduce an input to an expected value.
 
-As a note, there should not be much more than 25 to 30 tests total (e.g., around 4 to 5 tests for each type of folding and one system test  for `ConstantFolding.fold`) as black-box test is very functional. Excess tests will degrade your score for the lab. 
+As a note, there should not be much more than 25 to 30 tests total (e.g., around 4 to 5 tests for each type of folding and one system test  for `ConstantFolding.fold`) as black-box test is very functional. Excess tests will degrade your score for this assignment.
 
-## Suggested order of attack:
+### Suggested order of attack
 
-Approach the lab in small steps starting with the easiest type starting with `PrefixExpression` as it is similar to `ParenthesizedExpressions` that is given as part of the lab distribution. 
+Approach this assignment in small steps starting with the easiest type starting with `PrefixExpression` as it is similar to `ParenthesizedExpressions` that is given.
 
-   0. Read and understand everything related to `ParenthesizedExpression`
-   1. Write the specification for `PrefixExpression`
-   2. Create the tests from the specification
-   3. Implement the actual visitor. 
+   1. Read and understand everything related to `ParenthesizedExpression`
+   2. Write the specification for `PrefixExpression`
+   3. Create the tests from the specification
+   4. Implement the actual visitor. 
 
 Repeat for the other ways to fold. It is **important** that the **implementation is created after the specification and tests.** Specification. Then tests. And finally the implementation.
 
-# What to turn in?
+## What to turn in?
 
 When you are done with this assignment, create a pull request of your feature branch containing the solution. Upon submission of your pull request, GitHub will give you a sanity check by running Maven commands that the TA would have run to grade your assignment. Note that passing the GitHub build *does not* mean that you will get full credit for the assignment.  
 
 Submit to Canvas the URL of the pull request.
 
-# Rubric
+## Rubric
 
   * **(40 points)** for each required constant folding not including `ParenthesizedExpressions`
   * **(20 points)** for the system test framework for `ConstantFolding.fold`
@@ -224,6 +222,6 @@ Breakdown of **(40 points)** for each required folding technique
   * **(15 points)** for the tests
   * **(10 points)** for the implementation
   
-# Notes
+## Notes
 
   * What would a boundary value analysis look like? 
