@@ -1,12 +1,12 @@
 # Part 2: Control Flow Graph and Reaching Definitions
 
-For this assignment, you will be modifying and adding code to the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages.
+For this part of the project, you will be modifying and adding code to the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages.
 
 This assignment's first objective is to write tests for the `ControlFlowGraphBuilder` class inside the `edu.byu.cs329.cfg` package that builds the control flow graph for each `MethodDeclaration` in a `CompilationUnit`. The graph is constructed with an `ASTVisitor` using the algorithm defined in the [lecture notes](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/cfg-rd-lecture.md). The tests should be written from the specification using black-box techniques.
 
 The second objective is to implement and test the reaching definitions data-flow analysis as defined in the [lecture notes](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/cfg-rd-lecture.md) on a `ControlFlowGraph`. In other words, given a control flow graph for a method, compute the reaching definitions for that graph and black-box test the implementation that builds the `ReachingDefinitions` instances. The test for the reaching definitions analysis should use mocking for the control flow graphs so that the tests are independent of any implementation that builds the control flow graphs.
 
-Please keep in mind that the next part will integrate constant folding, control flow graphs, and reaching definitions to implement constant propagation.  
+Please keep in mind that the next part will integrate constant folding, control flow graphs, and reaching definitions to implement constant propagation.
 
 ## Reading
 
@@ -29,15 +29,15 @@ In the above example, assuming that ```reachDefs``` is an instance of something 
 
 ## Assignment Requirements
 
-  1. Update the project POM file to run tests in the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages as explained under the "Testing" section below.
-  2. Write the missing tests in  `ControlFlowGraphBuilderTests` for `ReturnStatement`, `WhileStatement`, and `IfStatement` and fix any discovered defects. Use the specifications in `ControlFlowGraphBuilder` for guidance. There should only be around 10-15 additional tests. Follow the test approach in the existing given tests for `MethodDeclaration` and `Block`.
+  1. Update the project POM file to allow the `mvn exec:java` command to run tests in the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages as explained under the "Testing" section below.
+  2. Write the missing tests in `ControlFlowGraphBuilderTests` for `ReturnStatement`, `WhileStatement`, and `IfStatement` and fix any discovered defects. Use the specifications in `ControlFlowGraphBuilder` for guidance. There should only be around 10-15 additional tests. Follow the test approach in the existing given tests for `MethodDeclaration` and `Block`.
   3. Write a minimal set of tests for `ReachingDefinitionsBuilder` given a list with a single `ControlFlowGraph`. The tests should use mocks for the `ControlFlowGraph` inputs and check the structure of the `ReachingDefinitions` instance in some way. There is no formal specification for guiding black-box test generation. Reason over shapes of control-flow graph structures and **only test interesting shapes**. There should be less than a handful (e.g. 3 to 6) of tests to cover **interesting shapes**.
   4. Implement the code to build the `ReachingDefinitions` interface from a `ControlFlowGraph` instance.
   5. Write an interesting system level test(s) that use(s) the `ControlFlowBuilder` to generate a `ControlFlowGraph` instance for input to the code that builds a `ReachingDefinitions` instance.
 
 ## What to turn in?
 
-When you are done with this assignment, create a pull request of your feature branch containing the solution. Upon submission of your pull request, GitHub will give you a sanity check by running Maven commands that the TA would have run to grade your assignment. Note that passing the GitHub build *does not* mean that you will get full credit for the assignment.  
+When you are done with this assignment, create a pull request of your feature branch containing the solution. Upon submission of your pull request, GitHub will give you a sanity check by running Maven commands that the TA would have run to grade your assignment. Note that passing the GitHub build *does not* mean that you will get full credit for the assignment.
 
 Submit to Canvas the URL of the pull request.
 
@@ -58,7 +58,7 @@ with this:
     <argument>--include-package=edu.byu.cs329.rd</argument>
 ```
 
-After making the changes and rebuilding the project, run `mvn exec:java`. You should see that the tests from those packages run instead of the tests in the `edu.byu.cs329.constantfolding` package.
+After making the changes and rebuilding the project with a command like `mvn clean test`, run `mvn exec:java`. You should see that the tests from those packages run instead of the tests in the `edu.byu.cs329.constantfolding` package.
 
 ### Test Framework for Control Flow Graphs
 
@@ -66,15 +66,15 @@ The tests for the `ControlFlowGraphBuilder` use the `StatementTracker` to create
 
 ### Understanding the specifications
 
-The specification is writtin to mimic the formal definition of the algorithm in [cfg-rd-lecture.md](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/cfg-rd-lecture.md). It relies on several helper definitions:
+The specification is written to mimic the formal definition of the algorithm in [cfg-rd-lecture.md](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/cfg-rd-lecture.md). It relies on several helper definitions:
 
-  * `S` is a list of statements that belong to a `Block` such as the list of statements in the block for the method declaration
-  * `s` is a statement sometimes with an index in a list as a subscript
-  * `last(S)` is the last statement in the list and undefined for an empty list
-  * `first(S)` is the first statement in the list and undefined when the list is empty
-  * `defined(first(S))` and `defined(last(S))` true if the thing is defined and false otherwise
-  * `firstReturn(S)` is the index of the first return statement in the list and when there is no return the index of the last statement in the list
- 
+* `S` is a list of statements that belong to a `Block` such as the list of statements in the block for the method declaration
+* `s` is a statement sometimes with an index in a list as a subscript
+* `last(S)` is the last statement in the list and undefined for an empty list
+* `first(S)` is the first statement in the list and undefined when the list is empty
+* `defined(first(S))` and `defined(last(S))` true if the thing is defined and false otherwise
+* `firstReturn(S)` is the index of the first return statement in the list and when there is no return the index of the last statement in the list
+
 ### Updating Test Inputs in the Resources Directory
 
 Anytime a test input is changed, then a may be `mvn compile` required to update the `target` directory with with the changed resource. Be aware of this quirk if ever the test input file has been modified but the running the test is not using the modified input.
@@ -83,19 +83,19 @@ Anytime a test input is changed, then a may be `mvn compile` required to update 
 
 Creating the mocks for the `ControlFlowGraph` instances is tricky: one because it can be tedious, and two because it requires also creating mocks for several different `ASTNode` types:
 
-  * `VariableDeclaration`
-  * `VariableDeclarationStatement`
-  * `Assignment`
-  * `ExpressionStatement`
-  * `SimpleName`
-  * `MethodDeclaration`
-  * `Block`
+* `VariableDeclaration`
+* `VariableDeclarationStatement`
+* `Assignment`
+* `ExpressionStatement`
+* `SimpleName`
+* `MethodDeclaration`
+* `Block`
 
 The above list is not comprehensive as it depends somewhat on the shape of the graphs being mocked, but it is a good starting point.
 
 The goal is to only define required `when().thenReturn()` behavior for each mock. And it is more common than uncommon to be returning mocks for that behavior since an `ASTNode` is likely to use mocks in its own mock. Following is some brief discussion for the less obvious `ASTNodes` to help get started.
 
-The `ControlFlowGraph` itself needs to mock its entire interface. That includes the behavior for `ControlFlowGraph.getSuccs(Statement)` and `ControlFlowGraph.getPreds(Statement)` for each statement in the graph. Drawing the graph being mocked is helpful to be sure all the edges are present. Recall that `ControlFlowGraph.getEnd()` returns the `Block` in the method declaration (see `ControlFlowGraphBuilder#Visitor.visit(MethodDeclaration)`). Using the block in the method declaration for the end is convenient so that every return statement goes to the same place. Remember, it is not required to look in the block as the control flow graph defines edges between statements. It is necessary to look at each statement though to see if it generates a definition (e.g., `VariableDelarationStatemnt` and `ExpressionStatement` in the case of it wrapping an `Assignment`).
+The `ControlFlowGraph` itself needs to mock its entire interface. That includes the behavior for `ControlFlowGraph.getSuccs(Statement)` and `ControlFlowGraph.getPreds(Statement)` for each statement in the graph. Drawing the graph being mocked is helpful to be sure all the edges are present. Recall that `ControlFlowGraph.getEnd()` returns the `Block` in the method declaration (see `ControlFlowGraphBuilder#Visitor.visit(MethodDeclaration)`). Using the block in the method declaration for the end is convenient so that every return statement goes to the same place. Remember, it is not required to look in the block as the control flow graph defines edges between statements. It is necessary to look at each statement though to see if it generates a definition (e.g., `VariableDeclarationStatement` and `ExpressionStatement` in the case of it wrapping an `Assignment`).
 
 #### Variable Declaration Statement
 
@@ -107,13 +107,13 @@ An `ExpressionStatement` wraps an `Expression` that it returns with `ExpressionS
 
 ## Other Things to Consider
 
-  * Creating the mocks for the control flow graph is error prone. It is not unusual to find that the reaching definitions implementation is fine and rather the test failded because the mock was not correct.
-  * `doesDefine` in `ReachingDefinitionsBuilderTests` is easily modified to check not just for a name but for the mock that is the expected statement for the definition.
-  * Be sure when computing the union over predecessors that there is special care taken for the start node so that it includes the definitions for the parameters.
-  * Compute once and save the defintions in a `GenSet` map so that the same instances of `Definition` are used through all the analysis. Using the **same instances** everywhere means that two sets of definitions can be compared for equality without having to define an `equals` method for `Definition` types (e.g. `set1.equals(set2)` works as expected).
-  * `SimpleName.getIdentifier()` gives the name and is what needs to be mocked.
-  * Write code to create mocks for things such as `VariableDeclaration`, `VariableDeclarationStatement`, `Assignment`, `ExpressionStatement`, etc.
-  * The code for the reaching definitions analysis should be simple and may prove to be less code than the test code to build the mocks and define the tests.
+* Creating the mocks for the control flow graph is error prone. It is not unusual to find that the reaching definitions implementation is fine and rather the test failed because the mock was not correct.
+* `doesDefine` in `ReachingDefinitionsBuilderTests` is easily modified to check not just for a name but for the mock that is the expected statement for the definition.
+* Be sure when computing the union over predecessors that there is special care taken for the start node so that it includes the definitions for the parameters.
+* Compute once and save the definitions in a `GenSet` map so that the same instances of `Definition` are used through all the analysis. Using the **same instances** everywhere means that two sets of definitions can be compared for equality without having to define an `equals` method for `Definition` types (e.g. `set1.equals(set2)` works as expected).
+* `SimpleName.getIdentifier()` gives the name and is what needs to be mocked.
+* Write code to create mocks for things such as `VariableDeclaration`, `VariableDeclarationStatement`, `Assignment`, `ExpressionStatement`, etc.
+* The code for the reaching definitions analysis should be simple and may prove to be less code than the test code to build the mocks and define the tests.
 
 ## Rubric
 

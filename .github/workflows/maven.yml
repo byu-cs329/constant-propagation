@@ -22,8 +22,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - name: mvn install lab-utils
-      working-directory: ./lab-utils
+    - name: mvn install project-utils
+      working-directory: ./project-utils
       run: mvn -ntp install
     - name: Maven build and test assignment
       run: mvn -ntp verify 
