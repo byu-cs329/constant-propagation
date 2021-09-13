@@ -1,3 +1,0 @@
-[submodule "project-utils"]
-	path = project-utils
-	url = git@github.com:byu-cs329/project-utils.git
