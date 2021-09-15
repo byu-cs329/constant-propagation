@@ -19,9 +19,9 @@ The [DOM-Visitor lecture](https://bitbucket.org/byucs329/byu-cs-329-lecture-note
 
 Examples:
 
-* `x = 3 + 7` becomes `x = 10`
-* `x = 3 + (7 + 4)` becomes `x = 14`
-* `x = y + (7 + 4)` becomes `x = y + 11`
+  * `x = 3 + 7` becomes `x = 10`
+  * `x = 3 + (7 + 4)` becomes `x = 14`
+  * `x = y + (7 + 4)` becomes `x = y + 11`
 
 Not that constant folding does not include replacing variables that reduce to constants.
 
@@ -170,11 +170,11 @@ This course is only going to consider a very narrow [subset of Java](https://bit
 
 Constant folding is **only required** for the following types of `ASTNode` expressions and statements:
 
-* `ParenthesizedExpression` that contain only a literal of any type (given as part of the base code)
-* Logical not `PrefixExpression`, `!`, when applied to `BooleanLiteral`
-* Numeric `InfixExpression` for `+` if and only if all the operands are of type `NumberLiteral` including the extended operands
-* Binary relational `InfixExpression`, `<`, if and only if both operands are of type `NumberLiteral`
-* `IfStatement` if and only if the predicate is a `BooleanLiteral`
+  * `ParenthesizedExpression` that contain only a literal of any type (given as part of the base code)
+  * Logical not `PrefixExpression`, `!`, when applied to `BooleanLiteral`
+  * Numeric `InfixExpression` for `+` if and only if all the operands are of type `NumberLiteral` including the extended operands
+  * Binary relational `InfixExpression`, `<`, if and only if both operands are of type `NumberLiteral`
+  * `IfStatement` if and only if the predicate is a `BooleanLiteral`
 
 Assume that any `NumberLiteral` instance is of type `int` always. This set of expressions and statements are much more narrow than what is allowed in the Java subset. That is OK. Folding is only applied to the above program features. Also, folding should be applied iteratively until no further reduction is possible.
 
@@ -187,43 +187,24 @@ For each required application of constant folding:
   2. Implement the folding in its own class that implements `Folding`
   3. Add the new folding technique to `ConstantFolding.fold`
 
-After each required application of constant folding is implemented, then write some system tests for `ConstantFolding.fold` that check the iterative application of all the ways to folding to reduce an input to an expected value.
+After each required application of constant folding is implemented, write some system tests, integration tests, for `ConstantFolding.fold` where all the different folding techniques are enabled to be sure they work together as expected.
 
 As a note, there should not be much more than 25 to 30 tests total (e.g., around 4 to 5 tests for each type of folding and one system test for `ConstantFolding.fold`) as black-box test is very functional. Excess tests will degrade your score for this assignment.
 
 ### Suggested order of attack
 
-Approach this assignment in small steps starting with the easiest type starting with `PrefixExpression` as it is similar to `ParenthesizedExpressions` that is given.
+Approach this assignment in small steps starting with the easiest type, `PrefixExpression`, as it is similar to the `ParenthesizedExpressions` implementation that is given.
 
    1. Read and understand everything related to `ParenthesizedExpression`
    2. Write the specification for `PrefixExpression`
    3. Create the tests from the specification
-   4. Implement the actual visitor.
+   4. Implement the actual visitor
 
 Repeat for the other ways to fold. It is **important** that the **implementation is created after the specification and tests.** Specification. Then tests. And finally the implementation.
 
-## How to turn in this lab?
+## What to turn in?
 
-Before creating a pull request for this lab, you need to insert an access token to your project repository for Github Actions to access your project-utils repository. This is a one-time process that once set up correctly, would not need to be done for this project repository again.
-
-First, you must create a Personal Access Token by following the directions below:
-
-1. Log in to GitHub and go to https://github.com/settings/tokens
-2. Click on "Generate new token". You may have to enter your GitHub password again.
-3. Enter a note for this token so you will know what it is used for. Something like "CS 329 Project GitHub Access" would work.
-4. Change the expiration date to 90 days.
-5. Under scopes, select the "repo" scope to allow this token to have full control of private repositories.
-6. Scroll down, then click on "Generate token".
-7. Copy the access token. Do not close the page until you have pasted the token. Upon closing of that page, you will not be able to copy the access token again, but you can delete it and create a new one if needed.
-
-After generating the token, go to your project GitHub repository to insert that token:
-
-1. Open your project GitHub repo, then click on the Settings tab.
-2. On the left menu, select "Secrets", then click on "New repository secret".
-3. Insert `ACCESS_TOKEN` as the secret's name. In the [GitHub workflow file](.github/workflows/maven.yml), this name is referenced to give GitHub Actions access to other private repositories you have access to.
-4. Paste your Personal Access Token in the "value" section, then click on "Add secret". After doing so, GitHub stores your secret securely, and the token is no longer readable.
-
-After you have completed the lab and done the steps above, create a pull request of your feature branch containing the solution and ensure that your Github workflow build passes. The TA's may not be able to grade your assignment if your build fails. Submit to Canvas the URL of the pull request.
+Create a pull request of your feature branch containing the solution and ensure that your Github workflow build passes (be sure you have pushed any changes to `project-utils` and have updated the submodules appropriately--see [README.md](README.md)). Submit to Canvas the URL of the pull request.
 
 ## Rubric
 

@@ -29,7 +29,7 @@ In the above example, assuming that ```reachDefs``` is an instance of something 
 
 ## Assignment Requirements
 
-  1. Update the project POM file to allow the `mvn exec:java` command to run tests in the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages as explained under the "Testing" section below.
+  1. Update the project POM file to allow the `mvn exec:java` command to run tests in the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages as explained under the **Testing** section below.
   2. Write the missing tests in `ControlFlowGraphBuilderTests` for `ReturnStatement`, `WhileStatement`, and `IfStatement` and fix any discovered defects. Use the specifications in `ControlFlowGraphBuilder` for guidance. There should only be around 10-15 additional tests. Follow the test approach in the existing given tests for `MethodDeclaration` and `Block`.
   3. Write a minimal set of tests for `ReachingDefinitionsBuilder` given a list with a single `ControlFlowGraph`. The tests should use mocks for the `ControlFlowGraph` inputs and check the structure of the `ReachingDefinitions` instance in some way. There is no formal specification for guiding black-box test generation. Reason over shapes of control-flow graph structures and **only test interesting shapes**. There should be less than a handful (e.g. 3 to 6) of tests to cover **interesting shapes**.
   4. Implement the code to build the `ReachingDefinitions` interface from a `ControlFlowGraph` instance.
@@ -68,16 +68,16 @@ The tests for the `ControlFlowGraphBuilder` use the `StatementTracker` to create
 
 The specification is written to mimic the formal definition of the algorithm in [cfg-rd-lecture.md](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/cfg-rd-lecture.md). It relies on several helper definitions:
 
-* `S` is a list of statements that belong to a `Block` such as the list of statements in the block for the method declaration
-* `s` is a statement sometimes with an index in a list as a subscript
-* `last(S)` is the last statement in the list and undefined for an empty list
-* `first(S)` is the first statement in the list and undefined when the list is empty
-* `defined(first(S))` and `defined(last(S))` true if the thing is defined and false otherwise
-* `firstReturn(S)` is the index of the first return statement in the list and when there is no return the index of the last statement in the list
+  * `S` is a list of statements that belong to a `Block` such as the list of statements in the block for the method declaration
+  * `s` is a statement sometimes with an index in a list as a subscript
+  * `last(S)` is the last statement in the list and undefined for an empty list
+  * `first(S)` is the first statement in the list and undefined when the list is empty
+  * `defined(first(S))` and `defined(last(S))` true if the thing is defined and false otherwise
+  * `firstReturn(S)` is the index of the first return statement in the list and when there is no return the index of the last statement in the list
 
 ### Updating Test Inputs in the Resources Directory
 
-Anytime a test input is changed, then a may be `mvn compile` required to update the `target` directory with with the changed resource. Be aware of this quirk if ever the test input file has been modified but the running the test is not using the modified input.
+Anytime a test input is changed, then a `mvn compile` may be required to update the `target` directory with with the changed resource. Be aware of this quirk if ever the test input file has been modified but the test is not using the modified input.
 
 ### Mocks Mocks and More Mocks
 
@@ -107,13 +107,13 @@ An `ExpressionStatement` wraps an `Expression` that it returns with `ExpressionS
 
 ## Other Things to Consider
 
-* Creating the mocks for the control flow graph is error prone. It is not unusual to find that the reaching definitions implementation is fine and rather the test failed because the mock was not correct.
-* `doesDefine` in `ReachingDefinitionsBuilderTests` is easily modified to check not just for a name but for the mock that is the expected statement for the definition.
-* Be sure when computing the union over predecessors that there is special care taken for the start node so that it includes the definitions for the parameters.
-* Compute once and save the definitions in a `GenSet` map so that the same instances of `Definition` are used through all the analysis. Using the **same instances** everywhere means that two sets of definitions can be compared for equality without having to define an `equals` method for `Definition` types (e.g. `set1.equals(set2)` works as expected).
-* `SimpleName.getIdentifier()` gives the name and is what needs to be mocked.
-* Write code to create mocks for things such as `VariableDeclaration`, `VariableDeclarationStatement`, `Assignment`, `ExpressionStatement`, etc.
-* The code for the reaching definitions analysis should be simple and may prove to be less code than the test code to build the mocks and define the tests.
+  * Creating the mocks for the control flow graph is error prone. It is not unusual to find that the reaching definitions implementation is fine and rather the test failed because the mock was not correct.
+  * `doesDefine` in `ReachingDefinitionsBuilderTests` is easily modified to check not just for a name but for the mock that is the expected statement for the definition.
+  * Be sure when computing the union over predecessors that there is special care taken for the start node so that it includes the definitions for the parameters.
+  * Compute once and save the definitions in a `GenSet` map so that the same instances of `Definition` are used through all the analysis. Using the **same instances** everywhere means that two sets of definitions can be compared for equality without having to define an `equals` method for `Definition` types (e.g. `set1.equals(set2)` works as expected).
+  * `SimpleName.getIdentifier()` gives the name and is what needs to be mocked.
+  * Write code to create mocks for things such as `VariableDeclaration`, `VariableDeclarationStatement`, `Assignment`, `ExpressionStatement`, etc.
+  * The code for the reaching definitions analysis should be simple and may prove to be less code than the test code to build the mocks and define the tests.
 
 ## Rubric
 

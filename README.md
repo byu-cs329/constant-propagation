@@ -1,58 +1,76 @@
-# CS 329 Project: Constant Propagation
+# Constant Propagation
 
-This repository is a multi-part project for students to implement constant propagation. To do that, constant folding is needed (Part 1) along with a control flow graph representation of a method and a reaching definition data-flow analysis of a control flow graph (Part 2). These three things make constant propagation possible which is the subject of Part 3.
+This repository provides the framework to implement constant propagation. The implementation requires constant folding, control flow graph construction, and reading definitions computation. These three components are to be implemented in this repository in support of the final implementation of constant propagation. 
 
-For each part of the project, you will submit a pull request containing the solution and submit the URL of the pull request to Canvas. The writeup for each part is in the root directory of this repository:
+This repository depends on the **project-utils** library. The library is not sufficient to meet all the needs of the project, and it is expected to be further developed along the way. The instructions to add that library as a *git submodule* and install it locally with `mvn` are below.  **These steps must be completed before doing anything else**.
 
-1. [Constant Folding](part1-constant-folding.md)
-2. [Control Flow Graphs and Reaching Definitions](part2-cfg-rd.md)
-3. [Constant Propagation](part3-constant-propagation.md)
+Implementing constant propagation is divided into three distinct tasks shown below. Each of these is a *project* in the course that is submitted with an appropriate pull-request on the repository.
 
-## Java Subset
+  1. [Constant Folding](part1-constant-folding.md) ([part1-constant-folding.md](part1-constant-folding.md))
+  2. [Control Flow Graphs and Reaching Definitions](part2-cfg-rd.md) ([part2-cfg-rd.md](part2-cfg-rd.md))
+  3. [Constant Propagation](part3-constant-propagation.md) ([part3-constant-propagation.md](part3-constant-propagation.md))
 
-This course is only going to consider a very narrow [subset of Java](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/java-subset/java-subset.md) as considering all of Java is way beyond the scope and intent of this course (e.g., it would be a nightmare). The [subset of Java](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/java-subset/java-subset.md) effectively reduces to single-file programs with all the interesting language features (e.g., generics, lambdas, anonymous classes, etc.) removed. **As a general rule**, if something seems unusually hard or has an unusually large number of cases to deal with, then it probably is excluded from the [subset of Java](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/java-subset/java-subset.md) or should be excluded, so stop and ask before spending a lot of time on it.
+## Adding the project-utils Library
 
-## Environment Setup with project-utils
+The *project-utils* package is an incomplete set of utility code for creating *JDT DOM objects* from input Java files, getting information in and out of a JDT DOM, changing a JDT DOM, and standardizing errors and excpections. It is a required dependency for the this repository (see line 34 in `pom.xml`).
 
-The project-utils package is an incomplete set of utility code that is used for the projects in CS 329. You should see the following declaration in the pom.xml of this repository:
+The library must be added as a git submodule and installed in the local Maven cache for *constant-propagation* to build. Access to *project-utils* must also be granted to GitHub for the CI/CD pipeline to work on pushes to the **main** branch and pull-request.  
 
-```xml
-<dependency>
-  <groupId>edu.byu.cs329</groupId>
-  <artifactId>project-utils</artifactId>
-  <version>1.0-SNAPSHOT</version>
-</dependency>
-```
+### Adding the Git Submodule
 
-Your project cannot be built until the dependency of project-utils is resolved. You will resolve the dependency by using Git submodules and running `mvn install`.
+[This blog post](https://github.blog/2016-02-01-working-with-submodules/) gives a good overview of Git Submodules. [The official e-book for Git](https://git-scm.com/book/en/v2/Git-Tools-Submodules) also contains more instructions and details on how to use Git Submodules.
 
-### Git Submodules
+The below steps walk through adding *project-utils* to the *constant-propagation* repository as a Git Submodule. These steps should be completed by one person in the group on an appropriate feature branch and then merged into the **main** branch for the rest of the group pull down.
 
-You will use Git submodules to bring over the `project-utils` project as a dependency. [This blog post](https://github.blog/2016-02-01-working-with-submodules/) gives a good overview of Git submodules. [The official e-book for Git](https://git-scm.com/book/en/v2/Git-Tools-Submodules) also contains more instructions and details on how to use Git submodules.
+  0. Create and switch to an appropriate feature branch.
+  1. Accept the *project-utils* classroom invite to create a private repository for the groups version of *project-utils*.
+  2. Copy the URL for the newly created repository 
+  3. In the *constant-propagation* repository, run the following command, replacing the *repository-url* with the URL from step 2:
 
-Follow the instructions below to initialize your project repository with the project-utils repository as a submodule. If you are working with a partner, it is suggested to do the following on one computer, then have your partner pull the branch you are working on to initialize your project repository with the project-utils submodule:
+      `git submodule add <repository-url> project-utils`
 
-1. Like before, create a new feature branch to work on for your solution.
-2. Run the following command, replacing the repository-url (same as what you would use for `git clone`):
-
-    `git submodule add <repository-url> project-utils`
-
-3. Initialize the submodule by running `git submodule update --init`.
-4. Run `git status`. You will notice that there are files now ready to be committed. These files store the metadata of the submodules, including what commit of each submodule is pulled.
-5. Commit the changes and push your feature branch to GitHub. If you are working with a partner, they can pull the branch and run the following to initialize the repository: `git submodule update --init`
+  3. Initialize the submodule by running `git submodule update --init`.
+  4. Run `git status`. You will notice that there are files now ready to be committed. These files store the metadata of the submodules, including what commit of each submodule is pulled.
+  5. Commit the changes and push your feature branch to GitHub. If you are working with a partner, they can pull the branch and run the following to initialize the repository: `git submodule update --init`
 
 ### Maven install command
 
-Once you are done initializing the submodule, go into your newly initialized folders and run the `mvn install` command.
-The `mvn install` command builds and names a jar file for the project according to the `pom.xml` file and installs that jar in the local Maven cache. Run it for `project-utils` so that the dependency is resolved for this project.
+The *project-utils* library must be added to the local Maven repository for it to be visible to `mvn` to satisfy the build dependency. In the newly created, and initialized `project-utils` subfolder, run the `mvn install` command.
+
+The `mvn install` command builds and names a jar file for the project according to the `pom.xml` file in `project-utils` and installs that jar in the local Maven cache. 
+
+**Anytime *project-utils* is updated, it must be installed with `mvn install` inorder for the code in *constant-propagation* to see and use the changes.** 
 
 ### Updating a submodule
 
-Because Git treats a submodule as its own Git repository, you can modify files in the submodule folder directly if you need to make modifications to your project-utils repository. However, you will need to do the following to ensure that GitHub Actions will pull the latest changes of your project-utils submodule when building this project on the GitHub server:
+Git treats a submodule as its own Git repository, so the code in the `projec-utils` subfolder can be modified directly, and changes can be tracked with Git in mostly the same way as usual with a few caveates. The process is generalized in the following:
 
-1. After making your changes in the submodule, commit and push those changes back up to GitHub. Note that `git status`, `git add`, `git commit`, etc. all work respective to the directory you are in. For example, if you are in the project-utils directory, and you run `git commit`, you are committing to your project-utils repository, not your project repository.
-2. After doing so, make sure you run `git submodule update --remote --merge` in your *project repository*.
-3. You should see that some submodule metadata files got updated. Commit those changes to ensure your project repository will reference the latest commits of your updated submodule.
+  * Make, test, commit, and push changes in the `project-utils` submodule as usual with `git` and JUnit. The `git` commands are relative to the folder in which they are run, so anything in the `project-utils` folder is relative to that local `git` repository cloned when the module was initialized. **Revisions must be push to the remote `project-utils` repository beforue the next part.**
+  
+  * In the *constant-propagation* repository, the folder containing `project-utils`, run  `git submodule update --remote --merge`. This command updates submodule metadata to use the newly committed version of `project-utils`. Commit these changes to ensure the project uses the correct version of *project-utils*. 
+
+  * Push the changes on *constant-propagation* to the remote repository to share the project group. Remind everyone in the group to run `git submodule update` in the *constant-propagation* repository to get the pushed changes on the submodule.
+
+Don't forget the `mvn install` in `project-utils` inorder for the code in *constant-propagation* to see and use the changes.**   
+
+### Adding the Personal Access Token for CI/CD
+
+The GitHub CI/CD for *constant-propagation* must have access to the named *project-utils* repository in the submodule. The access is enabled with a *personal access token* (PAT). Creating and adding the PAT is a one time process.
+
+1. Log in to GitHub and go to https://github.com/settings/tokens
+2. Click on *"Generate new token"*. It may require the GitHub password again.
+3. Enter a note for this token describing its purpose: *"CS 329 Project GitHub Access"*.
+4. Change the expiration date to 90 days.
+5. Under scopes, select the *"repo"* scope to allow this token to have full control of private repositories.
+6. Scroll down, then click on *"Generate token"*.
+7. Copy the PAT. Do not close the page until you have recorded the PAT (see next steps) because once the page is closed, there is no way to get a copy of the PAT again.
+
+After generating the PAT, go to the *constant-propagation* repository on GitHub to add the token to that repository as follows:
+
+1. Open the GitHub repo for *constant-propagation* then click on the *Settings* tab.
+2. On the left menu, select *"Secrets"*, then click on *"New repository secret"*.
+3. Insert `ACCESS_TOKEN` as the secret's name. In the [GitHub workflow file](.github/workflows/maven.yml), this name is referenced to give GitHub Actions access to the *project-utils* private repository.
+4. Paste the PAT in the *"value"* section, then click on *"Add secret"*. After doing so, GitHub stores the PAT securely and it is no longer human readable.
 
 ## POM Notes on testing
 
