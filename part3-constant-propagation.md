@@ -6,9 +6,9 @@ The first objective of this assignment is to implement a `ConstantPropagation` c
 
 The second objective of this assignment is to create a test framework to test the implementation. That framework needs to accomplish the following:
 
-* Black-box functional test constant propagation
-* White-box decision coverage test constant propagation: the visitor and any code needed to implement this assignment --- use mocks where appropriate to get the needed coverage.
-* Any additional integration deemed necessary for the system
+  * Black-box functional test constant propagation
+  * White-box decision coverage test constant propagation: the visitor and any code needed to implement this assignment --- use mocks where appropriate to get the needed coverage.
+  * Any additional integration deemed necessary for the system
 
 As before, the test framework should be self-documenting and make clear how the tests are organized and what part of the testing belongs too: white-box, black-box, integration.
 
@@ -20,7 +20,7 @@ Be sure to carefully read about [constant propagation](https://en.wikipedia.org/
 
 ## Java Subset
 
-Use the same subset of Java as defined in the [README.md in this repository's root directory](README.md).
+Use the same subset of Java as defined in the [constant folding](part1-constant-folding.md).
 
 ## What is Constant Propagation?
 
@@ -133,7 +133,7 @@ For each method, repeat until no changes
 
 ## Project Requirements
 
-  1. Update the project POM file as described in the "Maven Test Configuration" section below.
+  1. Update the project POM file as described in the *Maven Test Configuration* section below.
   2. A minimal set of black-box tests for the functionality of ```ConstantPropagation```
   3. An implementation of `ConstantPropagation`
   4. Any additional tests for white-box decision coverage (e.g., branch coverage) as reported by Jacoco for the ```ConstantPropagation``` class and any new classes created in this assignment to implement the `ConstantPropagation` class. Assertion statements are exempt from the coverage report, so if a decision is not covered, and it is not due to an assertion, then that lack of coverage must be justified in some way. You are required to modify the POM file as described in the Jacoco section of this writeup to ensure this is enforced by `mvn verify`.
