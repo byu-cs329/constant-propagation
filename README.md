@@ -12,7 +12,7 @@ Implementing constant propagation is divided into three distinct tasks shown bel
 
 ## Adding the project-utils Library
 
-The *project-utils* package is an incomplete set of utility code for creating *JDT DOM objects* from input Java files, getting information in and out of a JDT DOM, changing a JDT DOM, and standardizing errors and excpections. It is a required dependency for the this repository (see line 34 in `pom.xml`).
+The *project-utils* package is an incomplete set of utility code for creating *JDT DOM objects* from input Java files, getting information in and out of a JDT DOM, changing a JDT DOM, and standardizing errors and exceptions. It is a required dependency for the this repository (see line 34 in `pom.xml`).
 
 The library must be added as a git submodule and installed in the local Maven cache for *constant-propagation* to build. Access to *project-utils* must also be granted to GitHub for the CI/CD pipeline to work on pushes to the **main** branch and pull-request.  
 
