@@ -59,41 +59,32 @@ public class ParenthesizedExpressionFolding implements Folding {
    * any ParenthesizedExpression reachable node containing a literal
    * with the literal itself.
    *
-   * <p>nodes(root) := all nodes reachable from root
+   * <p>top := all nodes reachable from root such that each node 
+   *           is an outermost parenthesized expression that ends
+   *           in a literal
    * 
-   * <p>top(root) := all nodes reachable from root such that each node 
-   *                 is an outermost parenthesized expression that ends
-   *                 in a literal
+   * <p>parents := all nodes such that each one is the parent
+   *               of some node in top
    * 
-   * <p>topParents(root) := all nodes such that each one is the parent
-   *                        of some node in top(root)
+   * <p>isFoldable(n) :=    isParenthesizedExpression(n)
+   *                     /\ (   isLiteral(expression(n))
+   *                         || isFoldable(expression(n)))
    * 
-   * <p>between(root) := all nodes reachable from root such that each 
-   *                     node is a parenthesized expression that is 
-   *                     nested in some top most node
+   * <p>literal(n) := if isLiteral(n) then n else literal(expression(n))
    * 
-   * <p>bottom(n) := if n \in top(root), then the literal from the 
-   *                 innermost expression of n and otherwise undefined.
+   * @modifies nodes in parents
    * 
    * @requires root != null
    * @requires (root instanceof CompilationUnit) \/ parent(root) != null
    * 
-   * @ensures fold(root) == !(old(top(root)) == \emptyset)
-   * @ensures nodes(root) = 
-   *     old(nodes(root)) \setminus (old(top(root)) \cup old(between(root)))
-   * @ensures \forall n \in old(top(root)),
-   *        parent(old(bottom(n))) = old(parent(n)))
-   *     /\ children(old(parent(n))) = 
-   *          (old(children(parent(n))) \setminus {n}) \cup {old(bottom(n))}
-   * @ensures \forall n \in old(topParents(root)), parent(n) = old(parent(n))
-   * @ensures \forall n \in (old(nodes(root)) \setminus 
-   *          (old(top(root)) \cup old(between(root)) \cup old(topParents(root))),
-   *        parents(n) = old(parents(n))
-   *     /\ children(n) = old(children(n))
-   * @ensures top(root) = \emptyset 
-   *     /\ between(root) = \emptyset 
-   *     /\ topParents = \emptyset
-   *  
+   * @ensures fold(root) == (old(top) != emptyset)
+   * @ensures forall n in old(top), exists n' in nodes 
+   *        fresh(n')
+   *     /\ isLiteral(n')
+   *     /\ value(n') == value(literal(n))
+   *     /\ parent(n') == parent(n)
+   *     /\ children(parent(n')) == (children(parent(n)) setminus {n}) union {n'}
+   *   
    * @param root the root of the tree to traverse.
    * @return true if parenthesized literals were replaced in the rooted tree
    */
