@@ -79,11 +79,11 @@ public class ParenthesizedExpressionFolding implements Folding {
    * 
    * @ensures fold(root) == (old(top) != emptyset)
    * @ensures forall n in old(top), exists n' in nodes 
-   *        fresh(n')
-   *     /\ isLiteral(n')
-   *     /\ value(n') == value(literal(n))
-   *     /\ parent(n') == parent(n)
-   *     /\ children(parent(n')) == (children(parent(n)) setminus {n}) union {n'}
+   *             fresh(n')
+   *          /\ isLiteral(n')
+   *          /\ value(n') == value(literal(n))
+   *          /\ parent(n') == parent(n)
+   *          /\ children(parent(n')) == (children(parent(n)) setminus {n}) union {n'}
    *   
    * @param root the root of the tree to traverse.
    * @return true if parenthesized literals were replaced in the rooted tree
