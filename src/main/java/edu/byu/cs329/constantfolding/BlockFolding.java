@@ -96,7 +96,7 @@ public class BlockFolding implements Folding {
   }
 
   private void checkRequires(final ASTNode root) {
-    ExceptionUtils.requiresNonNull(root, "Null root passed to InfixPlusFolding.fold");
+    ExceptionUtils.requiresNonNull(root, "Null root passed to BlockFolding.fold");
 
     if (!(root instanceof CompilationUnit) && root.getParent() == null) {
       ExceptionUtils.throwRuntimeException(
