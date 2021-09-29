@@ -1,6 +1,6 @@
 # Part 1: Constant Folding
 
-For this part of the project, you will implement [constant folding](https://en.wikipedia.org/wiki/Constant_folding) for a subset of Java and use black-box testing to test its functional correctness. Your implementation will modify and add code contained in the `edu.byu.cs329.constantfolding` package. The implementation will use the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) to represent and manipulate Java. The [constant folding](https://en.wikipedia.org/wiki/Constant_folding) itself should be accomplished with a specialized [ASTVisitor](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html). The program will take two arguments as input:
+For this part of the project, you will implement [constant folding](https://en.wikipedia.org/wiki/Constant_folding) for a subset of Java and use black-box testing to test its functional correctness. Your implementation will modify and add code contained in the `edu.byu.cs329.constantfolding` package. The implementation will use the [org.eclipse.jdt.core.dom](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) to represent and manipulate Java. The documentation for the DOM dependencies exists at the [Eclipse website](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html) and at the [IBM website here](https://www.ibm.com/docs/en/wdfrhcw/1.3.0?topic=reference-orgeclipsejdtcoredom). The [constant folding](https://en.wikipedia.org/wiki/Constant_folding) itself should be accomplished with a specialized [ASTVisitor](https://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fdom%2Fpackage-summary.html). The program will take two arguments as input:
 
   1. the Java file on which to do constant folding; and
   2. an output file to write the result.
@@ -200,7 +200,8 @@ Approach this assignment in small steps starting with the easiest type, `PrefixE
    1. Read and understand everything related to `ParenthesizedExpression`
    2. Write the specification for `PrefixExpression`
    3. Create the tests from the specification
-   4. Implement the actual visitor
+   4. Be familiar with the [JDT DOM JavaDocs](https://www.ibm.com/docs/en/wdfrhcw/1.3.0?topic=reference-orgeclipsejdtcoredom) that documents the ASTNode, its subclasses (like `PrefixExpression`), and their methods
+   5. Implement the actual visitor
 
 Repeat for the other ways to fold. It is **important** that the **implementation is created after the specification and tests.** Specification. Then tests. And finally the implementation.
 
