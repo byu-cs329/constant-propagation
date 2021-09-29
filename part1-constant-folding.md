@@ -189,7 +189,9 @@ For each required application of constant folding:
 
 After each required application of constant folding is implemented, write some system tests, integration tests, for `ConstantFolding.fold` where all the different folding techniques are enabled to be sure they work together as expected.
 
-As a note, there should not be much more than 25 to 30 tests total (e.g., around 4 to 5 tests for each type of folding and one system test for `ConstantFolding.fold`) as black-box test is very functional. Excess tests will degrade your score for this assignment.
+As a note, there should not be much more than 25 to 45 tests total (e.g., around 4 to 7 tests for each type of folding and one system test for `ConstantFolding.fold`) as black-box test is very functional. Excess tests will degrade your score for this assignment.
+
+**Warning**: tests should only test one thing, so do not include all the boundary value cases in a single test. Each case should be a different test.
 
 ### Suggested order of attack
 

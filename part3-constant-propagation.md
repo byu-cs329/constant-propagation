@@ -1,5 +1,7 @@
 # Part 3: Constant Propagation
 
+**Be sure to merge the pull-request from part 2** into the mainline branch before starting part 3. Part 3 should be on a **new feature branch** from the mainline at a point that includes part 2 (which includes part 1).
+
 This part of the project brings together constant folding and reaching definitions on a control flow graph to implement constant propagation. For this part, you will be modifying and adding code to the `edu.byu.cs329.constantpropagation` package.
 
 The first objective of this assignment is to implement a `ConstantPropagation` class that for each `MethodDeclaration` does constant propagation to simplify the code. The implementation should be constructed with an `ASTVisitor` to find and replace a variable use with a constant based on the reaching definitions analysis. The visitor only looks at a statement in isolation, and the control flow graph is used to be sure each statement is considered.
@@ -147,6 +149,8 @@ When you are done with this assignment, create a pull request of your feature br
 Submit to Canvas the URL of the pull request.
 
 ## Maven Test Configuration
+
+The easiest way to run tests is with `mvn test`. See [README.md](README.md) for details on how to select specific test classes and test cases.
 
 ### Running tests with `mvn exec:java`
 

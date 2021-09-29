@@ -1,5 +1,7 @@
 # Part 2: Control Flow Graph and Reaching Definitions
 
+**Be sure to merge the pull-request from part 1** into the mainline branch before starting part 2. Part 2 should be on a **new feature branch** from the mainline at a point that includes part 1.
+
 For this part of the project, you will be modifying and adding code to the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages.
 
 This assignment's first objective is to write tests for the `ControlFlowGraphBuilder` class inside the `edu.byu.cs329.cfg` package that builds the control flow graph for each `MethodDeclaration` in a `CompilationUnit`. The graph is constructed with an `ASTVisitor` using the algorithm defined in the [lecture notes](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/src/master/cfg-rd-lecture.md). The tests should be written from the specification using black-box techniques.
@@ -14,7 +16,7 @@ See [cfg-rd-lecture.md](https://bitbucket.org/byucs329/byu-cs-329-lecture-notes/
 
 ## Java Subset
 
-Use the same subset of Java as before and as defined in the [README.md](README.md). See [README.md](https://github.com/byu-cs329/constant-propagation) in the master template repository for the most updated set of language restrictions. There may be additional restrictions in the requirements.
+Use the same subset of Java as before and as defined in the [Part 1 Constant Folding](part1-constant-folding).
 
 ## Interfaces
 
@@ -43,9 +45,13 @@ Submit to Canvas the URL of the pull request.
 
 ## Testing
 
+The easiest way to run tests is with `mvn test`. See [README.md](README.md) for details on how to select specific test classes and test cases.
+
 ### Running tests with `mvn exec:java`
 
-The `POM Notes on testing` section of [the README.md](README.md) explains how the POM file configures the `mvn exec:java` command and about JUnit's console launcher. Review that section and replace the following line in the POM file:
+See [README.md](README.md) for details on how to select specific test classes and test cases with `mvn exec:java`. 
+
+The `POM Notes on testing` section of [the README.md](README.md) explains how the POM file configures the `mvn exec:java` command and about JUnit's console launcher. Review that section and replace the following line in the POM file if desired:
 
 ```xml
     <argument>--include-package=edu.byu.cs329.constantfolding</argument>

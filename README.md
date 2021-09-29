@@ -76,17 +76,43 @@ After generating the PAT, go to the *constant-propagation* repository on GitHub 
 
 The `mvn test` uses the Surefire plugin to generate console reports and additional reports in `./target/surefire-reports`. The console report extension is configured to use the `@DisplayName` for the tests and generally works well except in the case of tests in `@Nested`, tests in `@ParameterizedTest`, or `@DynamicTest`. For these, the console report extension is less than ideal as it does not use the `@DisplayName` all the time and groups `@ParameterizedTest` and `@DynamicTest` into a single line report.
 
+**Important:** `mvn test -D test=<classname>` narrows the tests to be only those in `<classname>`, so for example, running just `ParenthesizedExpressionFoldingTests` is
+
+```
+ $ mvn test -D test=ParenthesizedExpressionFoldingTests
+```
+
+It is also possible to run a *specific* test in a test class with `mvn test -D test=<classname>#<methodname>`, so for example, running just `should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes` in `ParenthesizedExpressionFoldingTests` is 
+
+```
+$ mvn test -D test=ParenthesizedExpressionFoldingTests#should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes
+```
+
+Focussing the output to just be the specific test(s) of interest greatly reduces complexity and noise in the output and improves efficiency.
+
 The `./target/surefire-reports/TEST-<fully qualified class name>.xml` file is the detailed report of all the tests in the class that uses the correct `@DisplayName`. The file is very useful for isolating failed parameterized or dynamic tests. The regular text files in the directory only show what Maven shows. That said, many IDEs present a tree view of the tests with additional information for `@Nested`, `@ParameterizedTest`, `@DynamicTest`, `@RepeatTest`, etc. This tree view can be generated with the JUnit `ConsoleLauncher`.
 
 The POM in the project is setup to run the [JUnit Platform Console Standalone](https://mvnrepository.com/artifact/org.junit.platform/junit-platform-console-standalone) on the `mvn exec:java` goal in the build phase. The POM sets the arguments to scan for tests, `--scan-classpath`, with `./target/test-classes` being added to the class path. You can also set the `--include-package` to contain the tests that you want to run with `mvn exec:java`. This repository is initialized so only the tests in the `edu.byu.cs329.constantfolding` package runs. As you work on part 2 and part 3 of this project, you would want to modify that part of the POM file.
 
 The equivalent command line of the default defined in the POM is:
 
-`mvn exec:java -Dexec.mainClass=org.junit.platform.console.ConsoleLauncher -Dexec.args="--class-path=./target/test-classes --scan-classpath --include-package=edu.byu.cs329.constantfolding"`
+`mvn exec:java -Dexec.mainClass=org.junit.platform.console.ConsoleLauncher -Dexec.args="--class-path=./target/test-classes --select-package=edu.byu.cs329.constantfolding"`
 
 The above is what is run with just the command `mvn exec:java`.
 
-The `ConsoleLauncher` is able to run specific tests and classes, so it is possible to add/change the `--include-package` or `include-class` argument, either in the POM file or by typing in the above on the command line. [Section 4.3.1](https://junit.org/junit5/docs/current/user-guide/#running-tests-console-launcher) of the JUnit 5 users lists all the options.
+**Important**: specifying `-Dexec.args` narrows the tests run to a specific class or method similar to what is possible with `-D test` for `mvn test`. For example, to run only the `ParenthesizedExpressionFoldingTests` it goes as
+
+```
+mvn exec:java -D exec.args="--class-path=./target/test-classes --select-class=edu.byu.cs329.constantfolding.ParenthesizedExpressionFoldingTests"
+```
+
+Running a specific test method goes as, for example, `should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes`, goes as
+
+```
+mvn exec:java -D exec.args="--class-path=./target/test-classes --select-method=edu.byu.cs329.constantfolding.ParenthesizedExpressionFoldingTests#should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes"
+```
+
+These arguments can be set in the POM if desired. [Section 4.3.1](https://junit.org/junit5/docs/current/user-guide/#running-tests-console-launcher) of the JUnit 5 users lists all the options including the short form of the options: `-c` versus `--select-class`.
 
 ## Things to watch out for
 
