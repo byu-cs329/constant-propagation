@@ -182,10 +182,15 @@ public class ControlFlowGraphBuilder {
 
     private ControlFlowGraph buildControlFlowGraph() {
       return new ControlFlowGraph() {
+
         final Map<Statement, Set<Statement>> successors = 
             Collections.unmodifiableMap(Visitor.this.successors);
         final Map<Statement, Set<Statement>> predecessors = 
             Collections.unmodifiableMap(Visitor.this.predecessors);
+
+        final Statement start = Visitor.this.start;
+        final Statement end = Visitor.this.end;
+        final MethodDeclaration methodDeclaration = Visitor.this.methodDeclaration;
 
         @Override
         public Statement getStart() {
