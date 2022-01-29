@@ -31,10 +31,10 @@ public class TestUtils extends JavaSourceUtils {
     assertTrue(expected.subtreeMatch(new ASTMatcher(), root));
   }
 
-  public static void assertDidNotFold(final Object t, String rootName, String expectedName, Folding folderUnderTest) {
+  public static void assertDidNotFold(final Object t, String rootName, Folding folderUnderTest) {
     ASTNode root = getASTNodeFor(t, rootName);  
     assertFalse(folderUnderTest.fold(root));
-    ASTNode expected = getASTNodeFor(t, expectedName);
+    ASTNode expected = getASTNodeFor(t, rootName);
     assertTrue(expected.subtreeMatch(new ASTMatcher(), root));
   }
 }
