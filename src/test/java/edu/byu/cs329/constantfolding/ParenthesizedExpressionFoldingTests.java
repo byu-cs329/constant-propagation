@@ -43,8 +43,7 @@ public class ParenthesizedExpressionFoldingTests {
   @DisplayName("Should not fold anything when there are no parenthesized literals")
   void should_NotFoldAnything_when_ThereAreNoParenthesizedLiterals() {
     String rootName = "foldingInputs/parenthesizedLiterals/should_NotFoldAnything_when_ThereAreNoParenthesizedLiterals.java";
-    String expectedName = "foldingInputs/parenthesizedLiterals/should_NotFoldAnything_when_ThereAreNoParenthesizedLiterals.java";
-    TestUtils.assertDidNotFold(this, rootName, expectedName, folderUnderTest);
+    TestUtils.assertDidNotFold(this, rootName, folderUnderTest);
   }
 
   @Test
@@ -52,6 +51,14 @@ public class ParenthesizedExpressionFoldingTests {
   void should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes() {
     String rootName = "foldingInputs/parenthesizedLiterals/should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes-root.java";
     String expectedName = "foldingInputs/parenthesizedLiterals/should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes.java";
+    TestUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
+  }
+
+  @Test
+  @DisplayName("Should only fold parenthesized literal when given nested parenthesized expressions")
+  void should_OnlyFoldParenthesizedLiteral_when_GivenNestedParentheses() {
+    String rootName = "foldingInputs/parenthesizedLiterals/should_OnlyFoldParenthesizedLiteral_when_GivenNestedParentheses-root.java";
+    String expectedName = "foldingInputs/parenthesizedLiterals/should_OnlyFoldParenthesizedLiteral_when_GivenNestedParentheses.java";
     TestUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
   }
 }
