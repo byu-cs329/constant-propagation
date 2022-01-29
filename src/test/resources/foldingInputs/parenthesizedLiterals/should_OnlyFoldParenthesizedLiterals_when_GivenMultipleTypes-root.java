@@ -1,7 +1,8 @@
-public class Name {
+public class should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes {
+
   public int name(final int y) {
-    final int x = (((3))) + (y);
-    final boolean b = ((true));
+    final int x = (3) + (y);
+    final boolean b = (true);
     final Integer i = (null);
     final char c = ('c');
     final String s = new String(("Hello"));

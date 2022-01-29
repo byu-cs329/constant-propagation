@@ -1,4 +1,5 @@
-public class Name {
+public class should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes {
+
   public int name(final int y) {
     final int x = 3 + (y);
     final boolean b = true;
