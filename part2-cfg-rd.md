@@ -27,15 +27,23 @@ x = 5; // statement s0
 y = x + 4; // statement s1
 ```
 
-In the above example, assuming that ```reachDefs``` is an instance of something that implements the ```ReachingDefinitions``` interface, then the reaching definitions for statement 1 ```reachDefs.getReachingDefinitions(s0)``` should return the set ```{(x, s0)}```. Notice that the set contains the name of the variable and the statement in the control flow graph that defines that variable. This pair of name and statement exactly match the pairs that are in the entry-sets and exit-sets for the analysis. In this way, ```reachDefs.getReachingDefinitions(s0)``` returns the entry set for statement ```s0``` from the reaching definitions analysis. Any implementation of the interface will need to compute from the control flow graph for a method declaration the entry-sets in order to implement the interface. There should be an instance of the ```ReachingDefinitions``` implementation for each ```MethodDeclaration``` in the input program.
+In the above example, assuming that ```reachDefs``` is an instance of something that implements the ```ReachingDefinitions``` interface, then the reaching definitions for statement 1 ```reachDefs.getReachingDefinitions(s1)``` should return the set ```{(x, s0)}```. Notice that the set contains the name of the variable and the statement in the control flow graph that defines that variable. This pair of name and statement exactly match the pairs that are in the entry-sets and exit-sets for the analysis. In this way, ```reachDefs.getReachingDefinitions(s1)``` returns the entry set for statement ```s1``` from the reaching definitions analysis. Any implementation of the interface will need to compute from the control flow graph for a method declaration the entry-sets in order to implement the interface. There should be an instance of the ```ReachingDefinitions``` implementation for each ```MethodDeclaration``` in the input program.
 
 ## Assignment Requirements
 
   1. Update the project POM file to allow the `mvn exec:java` command to run tests in the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages as explained under the **Testing** section below.
-  2. Write the missing tests in `ControlFlowGraphBuilderTests` for `ReturnStatement`, `WhileStatement`, and `IfStatement` and fix any discovered defects. Use the specifications in `ControlFlowGraphBuilder` for guidance. There should only be around 10-15 additional tests. Follow the test approach in the existing given tests for `MethodDeclaration` and `Block`.
-  3. Write a minimal set of tests for `ReachingDefinitionsBuilder` given a list with a single `ControlFlowGraph`. The tests should use mocks for the `ControlFlowGraph` inputs and check the structure of the `ReachingDefinitions` instance in some way. There is no formal specification for guiding black-box test generation. Reason over shapes of control-flow graph structures and **only test interesting shapes**. There should be less than a handful (e.g. 3 to 6) of tests to cover **interesting shapes**.
-  4. Implement the code to build the `ReachingDefinitions` interface from a `ControlFlowGraph` instance.
-  5. Write an interesting system level test(s) that use(s) the `ControlFlowBuilder` to generate a `ControlFlowGraph` instance for input to the code that builds a `ReachingDefinitions` instance.
+  2. Write tests in `ControlFlowGraphBuilderTests` for `IfStatement` and fix any discovered defects. Use its for guidance. There should only be around 3-5 additional tests. Follow the test approach in the existing given tests for `MethodDeclaration` and `Block`.
+  3. Write a minimal set of tests for `ReachingDefinitionsBuilder` given a list with a single `ControlFlowGraph`. The tests should validate that the algorithm is correctly implemented. There is no formal specification for guiding black-box test generation. Reason over shapes of control-flow graph structures and **only test interesting shapes**. There should be less than a handful (e.g. 3 to 6) of tests to cover all the **interesting shapes**.
+  
+**Further requirements for (3)**
+
+  1. At least one test should fully mock the input `ControlFlowGraph` and use the `Mockito.verify` interface with the mock to validate the algorithm.
+  2. At least one test should spy the input and use the `Mockito.verify` interface with the spy to validate the algorithm; the `ControlFlowGraphBuilder` should be used to create the object to spy.
+  3. The remaining tests should use the `ControlFlowGraphBuilder` and directly check the resulting instance of `ReachingDefinitions`
+
+Optional, **not required**, activities for practice:
+
+  * Write tests in `ControlFlowGraphBuilderTests` for `ReturnStatement` and `WhileStatement`.
 
 ## What to turn in?
 
