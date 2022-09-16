@@ -31,16 +31,14 @@ public class ConstantFolding {
     List<Folding> foldingList = List.of(
         new BlockFolding(),
         new ParenthesizedExpressionFolding()
-    // TODO: add other ways to fold
+        // TODO: add other ways to fold
     );
   
     while (isChanged == true) {
+      isChanged = false;
       for (Folding folding : foldingList) {
         isChanged = isChanged || folding.fold(compilationUnit);
       }
-      isChanged = false;
-      
-      log.warn("TODO: add other ways to fold");
     } 
 
     return compilationUnit;
