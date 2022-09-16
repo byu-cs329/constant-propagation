@@ -34,6 +34,7 @@ In the above example, assuming that ```reachDefs``` is an instance of something 
   1. Update the project POM file to allow the `mvn exec:java` command to run tests in the `edu.byu.cs329.cfg` and `edu.byu.cs329.rd` packages as explained under the **Testing** section below.
   2. Write tests in `ControlFlowGraphBuilderTests` for `IfStatement` and fix any discovered defects. Use its for guidance. There should only be around 3-5 additional tests. Follow the test approach in the existing given tests for `MethodDeclaration` and `Block`.
   3. Write a minimal set of tests for `ReachingDefinitionsBuilder` given a list with a single `ControlFlowGraph`. The tests should validate that the algorithm is correctly implemented. There is no formal specification for guiding black-box test generation. Reason over shapes of control-flow graph structures and **only test interesting shapes**. There should be less than a handful (e.g. 3 to 6) of tests to cover all the **interesting shapes**.
+  4. Implement the reaching definitions algorithm in `ReachingDefinitionsBuilder`. Be sure all tests pass. Add any additional tests as appropriate.
   
 **Further requirements for (3)**
 
