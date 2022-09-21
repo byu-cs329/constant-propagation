@@ -229,6 +229,11 @@
 							<placement>ac</placement>
 							<head>Requires:</head>
 						</tag>
+						<tag>
+							<name>modifies</name>
+							<placement>ac</placement>
+							<head>Modifies:</head>
+						</tag>
 					</tags>
 				</configuration>
 			</plugin>
