@@ -173,11 +173,9 @@ After making the changes and rebuilding the project with a command like `mvn cle
 
 Jacoco is already configured in the `pom.xml` file for this project. The configuration makes the `mvn test` command automatically generate a `./target/jacoco.exec` binary file with white-box coverage data. A human readable version of the data is created with the `mvn jacoco:report` command. This command creates the `./target/site/jacoco/index.html` report that is easily navigated to see decision (e.g., branch) coverage for `ConstantPropagation` and any new classes that are a part of this project. Coverage is based only on the defined and run tests.
 
-To get credit for this assignment, remove the following line of code in the POM file configuring the Jacoco plugin to allow Maven fail the `verify` command if 100% decision coverage was not met:
+The `jacoco:check` is bound to the `verify` phase in our `pom.xml`. To get credit for this assignment, change the value of `skip` in `pom.xml` where the `decision-coverage-check` is defined to be `false` rather than `true`. The `skip` value does exactly what its name implies: skips the rules it if is true. Once `skip` is set to false, `mvn verify` does the check after it runs all the unit and integration tests. The `decision-coverage-check` says it fails if 100% decision coverage was not met.
 
-```xml
-<skip>true</skip>
-```
+The `decision-coverage-check` check can alse be run in the terminal outside of `verify` or `test` with `mvn jacoco:check@decision-coverage-check`. Here Maven is invoking `jacoco:check` and that is using the rules defined for `decision-coverage-check`. Remember though that it only makes sense to do the check once all the tests are run; that is why it is bound to `verify`.
 
 It is permissible to modify the `ConstantPropagation` class to make it easier to achieve branch coverage. It may be necessary to use mocks to cover some of the more difficult decisions.
 

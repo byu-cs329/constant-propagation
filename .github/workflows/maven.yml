@@ -30,11 +30,11 @@ jobs:
     - name: mvn install project-utils
       working-directory: ./project-utils
       run: mvn -ntp install
-    - name: Maven build and test assignment
-      run: mvn -ntp verify 
-      continue-on-error: true
-    - name: Checkstyle
-      run: mvn -ntp test -Dcheckstyle.violationSeverity=warning
+    - name: mvn checkstyle:check -Dcheckstyle.violationSeverity=warning
+      run: mvn -ntp checkstyle:check -Dcheckstyle.violationSeverity=warning
+      continue-on-error: false
+    - name: mvn verify
+      run: mvn -ntp verify -Dcheckstyle.violationSeverity=warning
       continue-on-error: true
     - name: Report decision coverage
       run: |

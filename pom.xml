@@ -176,12 +176,13 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>default-check</id>
+						<id>decision-coverage-check</id>
 						<goals>
 							<goal>check</goal>
 						</goals>
 						<configuration>
-							<skip>true</skip> <!-- TODO: Remove this line for Part 3-->
+						  <!-- TODO: Set skip below to false for Part 3 -->
+							<skip>true</skip>
 							<rules>
 								<rule>
 									<element>PACKAGE</element>
