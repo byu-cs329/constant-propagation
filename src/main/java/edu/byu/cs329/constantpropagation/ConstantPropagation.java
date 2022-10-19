@@ -34,7 +34,7 @@ public class ConstantPropagation {
     if (args.length != 2) {
       log.error("Missing Java input file or output file on command line");
       System.out.println("usage: java DomViewer <java file to parse> <html file to write>");
-      System.exit(1);
+      return;
     }
 
     File inputFile = new File(args[0]);
