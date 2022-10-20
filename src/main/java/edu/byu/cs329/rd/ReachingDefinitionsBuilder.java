@@ -15,14 +15,16 @@ import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 
 
-
+/**
+ * Builder for reaching definitions on a control flow graph.
+ */
 public class ReachingDefinitionsBuilder {
   private List<ReachingDefinitions> rdList = null;
   private Map<Statement, Set<Definition>> entrySetMap = null;
 
   /**
    * Computes the reaching definitions for each control flow graph.
-   * 
+   *
    * @param cfgList the list of control flow graphs.
    * @return the coresponding reaching definitions for each graph.
    */
@@ -80,7 +82,7 @@ public class ReachingDefinitionsBuilder {
 
   private List<VariableDeclaration> getParameterList(Object list) {
     @SuppressWarnings("unchecked")
-    List<VariableDeclaration> statementList = (List<VariableDeclaration>)(list);
+    List<VariableDeclaration> statementList = (List<VariableDeclaration>) (list);
     return statementList;
   }
 }

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Constant Propagation.
- * 
+ *
  * @author Eric Mercer
  */
 public class ConstantPropagation {
@@ -18,7 +18,7 @@ public class ConstantPropagation {
 
   /**
    * Performs constant propagation.
-   * 
+   *
    * @param node the root node for constant propagation.
    */
   public static void propagate(ASTNode node) {
@@ -26,7 +26,7 @@ public class ConstantPropagation {
 
   /**
    * Performs constant folding an a Java file.
-   * 
+   *
    * @param args args[0] is the file to fold and args[1] is where to write the
    *             output
    */
@@ -38,8 +38,7 @@ public class ConstantPropagation {
     }
 
     File inputFile = new File(args[0]);
-    // String inputFileAsString = readFile(inputFile.toURI());
-    ASTNode node = JavaSourceUtils.getCompilationUnit(inputFile.toURI());//parse(inputFileAsString);
+    ASTNode node = JavaSourceUtils.getCompilationUnit(inputFile.toURI());
     ConstantPropagation.propagate(node);
 
     try {

@@ -4,6 +4,9 @@ import java.util.Set;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 
+/**
+ * Interface for the control flow graph.
+ */
 public interface ControlFlowGraph {
   public Statement getStart();
   

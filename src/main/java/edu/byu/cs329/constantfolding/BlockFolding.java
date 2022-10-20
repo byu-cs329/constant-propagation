@@ -10,6 +10,9 @@ import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Statement;
 
+/**
+ * Folding for block statements.
+ */
 public class BlockFolding implements Folding {
   
   class Visitor extends ASTVisitor {
@@ -30,22 +33,22 @@ public class BlockFolding implements Folding {
     private void addStatements(Statement statement, List<Statement> newStatements) {
       AST ast = statement.getAST();
       if (!(statement instanceof Block)) {
-        Statement newStatement = (Statement)(ASTNode.copySubtree(ast, statement));
+        Statement newStatement = (Statement) (ASTNode.copySubtree(ast, statement));
         newStatements.add(newStatement);
         return;
       }
       didFold = true;
-      Block block = (Block)statement;
+      Block block = (Block) statement;
       List<Statement> statements = getStatementList(block.statements());
       for (Statement statementInBlock : statements) {
-        Statement newStatement = (Statement)(ASTNode.copySubtree(ast, statementInBlock));
+        Statement newStatement = (Statement) (ASTNode.copySubtree(ast, statementInBlock));
         newStatements.add(newStatement);
       }
     }
 
     private List<Statement> getStatementList(Object list) {
       @SuppressWarnings("unchecked")
-      List<Statement> statementList = (List<Statement>)(list);
+      List<Statement> statementList = (List<Statement>) (list);
       return statementList;
     }
   }
@@ -65,7 +68,7 @@ public class BlockFolding implements Folding {
    * 
    * <p>topParents(root) := all nodes such that each one is the parent
    *                        of some node in top(root)
-   * 
+   *
    * @requires root != null
    * @requires (root instanceof CompilationUnit) \/ parent(root) != null
    * 

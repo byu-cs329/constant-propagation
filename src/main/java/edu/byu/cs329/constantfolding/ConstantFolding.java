@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Implements constant folding.
- * 
+ *
  * @author James Wasson
  * @author Eric Mercer
  *
@@ -46,7 +46,7 @@ public class ConstantFolding {
 
   /**
    * Performs constant folding an a Java file.
-   * 
+   *
    * @param args The args[0] is the file to fold and the args[1] is where to write the
    *             output.
    */

@@ -18,6 +18,9 @@ import org.eclipse.jdt.core.dom.WhileStatement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Builder for a control flow graph from a method declaration.
+ */
 public class ControlFlowGraphBuilder {
   Logger log = LoggerFactory.getLogger(ControlFlowGraphBuilder.class);
   
@@ -34,7 +37,7 @@ public class ControlFlowGraphBuilder {
 
     /**
      * Visit method declaration.
-     * 
+     *
      * @requires node != null
      * 
      * @ensures methodDeclaration = node
@@ -65,10 +68,10 @@ public class ControlFlowGraphBuilder {
 
     /**
      * Visit block.
-     * 
+     *
      * <p>firstReturn(S) := the index of the first return statement,
      *                      if any, and otherwise the size of the list.
-     * 
+     *
      * @requires node != null
      * 
      * @enures edges = old(edges) \cup 
@@ -90,7 +93,7 @@ public class ControlFlowGraphBuilder {
 
     /**
      * Visit while-statement.
-     * 
+     *
      * @requires node != null
      * @requires node.getBody() instanceof Block
      * 
@@ -105,7 +108,7 @@ public class ControlFlowGraphBuilder {
      */
     @Override
     public boolean visit(WhileStatement node) {
-      Block block = (Block)(node.getBody());
+      Block block = (Block) (node.getBody());
       List<Statement> statementList = getStatementList(block.statements());
       insertStatementList(node, statementList, node);
       return true;
@@ -124,7 +127,7 @@ public class ControlFlowGraphBuilder {
      *                    {(node, next(node))}
      * 
      * <p>else(node) is defined similarly to then(node).
-     * 
+     *
      * @requires node != null
      * @requires node.getThenStatement() instanceof Block
      * @requires node.getElseStatement() != null ==> node.getElseStatement() instanceof Block
@@ -139,13 +142,13 @@ public class ControlFlowGraphBuilder {
       Statement nextStatement = set.iterator().next();
       edges.remove(node); 
 
-      Block block = (Block)(node.getThenStatement());
+      Block block = (Block) (node.getThenStatement());
       List<Statement> statementList = getStatementList(block.statements());
       insertStatementList(node, statementList, nextStatement);
 
       Statement elseStatement = node.getElseStatement();
       if (elseStatement != null) {
-        block = (Block)(elseStatement);
+        block = (Block) (elseStatement);
         statementList = getStatementList(block.statements());
         insertStatementList(node, statementList, nextStatement);
       }
@@ -155,7 +158,7 @@ public class ControlFlowGraphBuilder {
 
     /**
      * Visit return statement.
-     * 
+     *
      * @requires node != null
      * 
      * @ensures edges = old(edges) \cup {(node, end)}
@@ -169,7 +172,7 @@ public class ControlFlowGraphBuilder {
 
     /**
      * End visit to method declartion.
-     * 
+     *
      * @param node the method declaration.
      */
     @Override
@@ -257,7 +260,7 @@ public class ControlFlowGraphBuilder {
 
     private List<Statement> getStatementList(Object list) {
       @SuppressWarnings("unchecked")
-      List<Statement> statementList = (List<Statement>)(list);
+      List<Statement> statementList = (List<Statement>) (list);
       return statementList;
     }
 
@@ -297,7 +300,7 @@ public class ControlFlowGraphBuilder {
 
   /**
    * Creates a control flow graph for every method.
-   * 
+   *
    * @param node compilation unit.
    * @return list fo control flow graphs.
    */

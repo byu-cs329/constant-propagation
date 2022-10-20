@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Replaces parenthesized literals with the literal.
- * 
+ *
  * @author Eric Mercer
  */
 public class ParenthesizedExpressionFolding implements Folding {
@@ -71,7 +71,7 @@ public class ParenthesizedExpressionFolding implements Folding {
    *                         || isFoldable(expression(n)))
    * 
    * <p>literal(n) := if isLiteral(n) then n else literal(expression(n))
-   * 
+   *
    * @modifies nodes in parents
    * 
    * @requires root != null
