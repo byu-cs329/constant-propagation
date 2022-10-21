@@ -48,10 +48,51 @@ public class ParenthesizedExpressionFoldingTests {
   }
 
   @Test
-  @DisplayName("Should only fold parenthesized literals when given multiple types")
-  void should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes() {
-    String rootName = "foldingInputs/parenthesizedLiterals/should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes-root.java";
-    String expectedName = "foldingInputs/parenthesizedLiterals/should_OnlyFoldParenthesizedLiterals_when_GivenMultipleTypes.java";
+  @DisplayName("Should fold when given parethesized boolean literal")
+  void should_fold_when_GivenBooleanLiteral() {
+    String rootName = "foldingInputs/parenthesizedLiterals/should_fold_when_GivenBooleanLiteral-root.java";
+    String expectedName = "foldingInputs/parenthesizedLiterals/should_fold_when_GivenBooleanLiteral.java";
     TestUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
   }
+
+  @Test
+  @DisplayName("Should only fold when given character literal")
+  void should_fold_when_GivenCharacterLiteral() {
+    String rootName = "foldingInputs/parenthesizedLiterals/should_fold_when_GivenCharacterLiteral-root.java";
+    String expectedName = "foldingInputs/parenthesizedLiterals/should_fold_when_GivenCharacterLiteral.java";
+    TestUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
+  }
+  
+  @Test
+  @DisplayName("Should only fold parenthesized literals when given multiple types")
+  void should_fold_when_givenNullLiteral() {
+    String rootName = "foldingInputs/parenthesizedLiterals/should_fold_when_givenNullLiteral-root.java";
+    String expectedName = "foldingInputs/parenthesizedLiterals/should_fold_when_givenNullLiteral.java";
+    TestUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
+  }
+  
+  @Test
+  @DisplayName("Should only fold parenthesized literals when given multiple types")
+  void should_fold_when_givenStringLiteral() {
+    String rootName = "foldingInputs/parenthesizedLiterals/should_fold_when_givenStringLiteral-root.java";
+    String expectedName = "foldingInputs/parenthesizedLiterals/should_fold_when_givenStringLiteral.java";
+    TestUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
+  }
+  
+  @Test
+  @DisplayName("Should only fold parenthesized literals when given multiple types")
+  void should_fold_when_givenTypeLiteral() {
+    String rootName = "foldingInputs/parenthesizedLiterals/should_fold_when_givenTypeLiteral-root.java";
+    String expectedName = "foldingInputs/parenthesizedLiterals/should_fold_when_givenTypeLiteral.java";
+    TestUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
+  }
+
+  @Test
+  @DisplayName("Should only fold parenthesized literals when given multiple types")
+  void should_fold_when_givenNumberLiteral() {
+    String rootName = "foldingInputs/parenthesizedLiterals/should_fold_when_givenNumberLiteral-root.java";
+    String expectedName = "foldingInputs/parenthesizedLiterals/should_fold_when_givenNumberLiteral.java";
+    TestUtils.assertDidFold(this, rootName, expectedName, folderUnderTest);
+  }
+
 }
